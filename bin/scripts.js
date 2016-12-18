@@ -1,7 +1,7 @@
 module.exports = {
 
 
-   validate_URL: function (req,res){
+   validate_URL: function (req){
 
      var validate = require('url-validator')
 

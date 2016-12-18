@@ -5,7 +5,7 @@ var scripts = require('./bin/scripts');
 app.use(express.static(__dirname +"/public"));
 
 
-app.get('/*', function (req) {
+app.get('/*', function (req,res) {
 
   var inputURL = req.params[0]
   var output = scripts.validate_URL(req)
