@@ -19,12 +19,13 @@ MongoClient.connect(url, function (err, db) {
     var collection = db.collection('urls')
 
 
-    // Get a new url
+    
+
     app.get('/:url*', function (req,res) {
 
 
       var input = scripts.validate_URL(req)
-      
+
 
       if(!isNaN(input) && input!=false){
 
@@ -34,8 +35,6 @@ MongoClient.connect(url, function (err, db) {
           res.json({"long_url":result.long_url, "short_url":result.short_url})
         })
       }
-
-
 
       if (isNaN(input) && input!=false) {
 
@@ -61,13 +60,7 @@ MongoClient.connect(url, function (err, db) {
 
         res.json({"error":"Wrong url format."})
       }
-
-
     })
-
-
-
-
   }
 });
 
