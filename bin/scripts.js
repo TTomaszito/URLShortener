@@ -7,7 +7,7 @@ module.exports = {
     var input = req.url.slice(1)
 
      if(!isNaN(input)){
-       console.log('inportant',input);
+       
        return input
 
      }

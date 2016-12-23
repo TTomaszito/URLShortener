@@ -24,13 +24,13 @@ MongoClient.connect(url, function (err, db) {
 
 
       var input = scripts.validate_URL(req)
-      console.log("thissssssss",input);
+      
 
       if(!isNaN(input) && input!=false){
-        console.log('check db bc it a number',input);
+
         var digit = parseInt(input)
         collection.findOne({"short_url":digit},function(err,result){
-          console.log(" SHORT URL in database",result);
+          console.log(" short url found in database")
           res.json({"long_url":result.long_url, "short_url":result.short_url})
         })
       }
@@ -38,16 +38,16 @@ MongoClient.connect(url, function (err, db) {
 
 
       if (isNaN(input) && input!=false) {
-          console.log(input)
+
 
         collection.findOne({'long_url':input},function(err,result){
           if (result) {
-            console.log(" in database",result);
+            console.log("Found in database");
 
             res.json({"long_url":result.long_url, "short_url":result.short_url, in_database:true})
 
           } else {
-            console.log('not in database',result, "added new entry");
+            console.log("added new entry");
             var shorturl = (Math.floor(Math.random() * 1000))
             collection.insert({'long_url':input,'short_url':shorturl})
 
@@ -58,8 +58,8 @@ MongoClient.connect(url, function (err, db) {
 
       }
       if(input == false) {
-        console.log('Wrong url format1.');
-        res.json({"error":"Wrong url format1."})
+
+        res.json({"error":"Wrong url format."})
       }
 
 
