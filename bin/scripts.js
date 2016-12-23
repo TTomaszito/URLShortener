@@ -3,34 +3,29 @@ module.exports = {
 
    validate_URL: function (req){
 
-     var validate = require('url-validator')
+    var validate = require('url-validator')
+    var input = req.url.slice(1)
 
-     var input = req.url.slice(5)
-     var url = validate(input)
+     if(!isNaN(input)){
+       console.log('inportant',input);
+       return input
 
-     if (url) {
-       return url
-
-     } else {
-       return false
      }
-   },
+     else{
 
-   validate_URL2: function (req){
+       var url = validate(input)
 
-     var validate = require('url-validator')
+       if (url) {
+         return url
 
-     var input = req.url.slice(1)
-     console.log(input);
-     var url = validate(input)
-
-     if (url) {
-       return url
-
-     } else {
-       return false
+       } else {
+         return false
+       }
      }
+
+
    }
+
 
 
 };

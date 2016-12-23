@@ -20,54 +20,52 @@ MongoClient.connect(url, function (err, db) {
 
 
     // Get a new url
-    app.get('/new/:url*', function (req,res) {
+    app.get('/:url*', function (req,res) {
 
 
       var input = scripts.validate_URL(req)
       console.log("thissssssss",input);
 
-      if (input) {
+      if(!isNaN(input) && input!=false){
+        console.log('check db bc it a number',input);
+        var digit = parseInt(input)
+        collection.findOne({"short_url":digit},function(err,result){
+          console.log(" SHORT URL in database",result);
+          res.json({"long_url":result.long_url, "short_url":result.short_url})
+        })
+      }
+
+
+
+      if (isNaN(input) && input!=false) {
           console.log(input)
 
-        collection.findOne({'url':input},function(err,result){
+        collection.findOne({'long_url':input},function(err,result){
           if (result) {
             console.log(" in database",result);
-            res.json({"long_url":input, "short_url":"tbd", in_database:true})
+
+            res.json({"long_url":result.long_url, "short_url":result.short_url, in_database:true})
 
           } else {
             console.log('not in database',result, "added new entry");
+            var shorturl = (Math.floor(Math.random() * 1000))
+            collection.insert({'long_url':input,'short_url':shorturl})
 
-            collection.insert({'url':input})
-
-            res.json({"long_url":input, "short_url":"tbd", in_database:false, "comment":"added to database"})
+            res.json({"long_url":input, "short_url":shorturl, in_database:false, "comment":"added to database"})
 
           }
         })
 
-      } else {
-        console.log('Wrong url format.');
-        res.json({"error":"Wrong url format."})
+      }
+      if(input == false) {
+        console.log('Wrong url format1.');
+        res.json({"error":"Wrong url format1."})
       }
 
 
     })
 
-    // check for existing url
-    app.get('/:url*', function (req,res) {
 
-      var input = scripts.validate_URL2(req)
-      console.log(input);
-
-      if (input) {
-        console.log('valid website check if its in database 2');
-
-      } else {
-        res.json({"error":"Wrong url format."})
-        console.log('wrong url format 2');
-      }
-
-
-    })
 
 
   }
